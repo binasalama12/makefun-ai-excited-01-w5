@@ -20,19 +20,33 @@ function main(): void {
   const outputPath = requested ? resolve(requested) : join(here, "out.png");
 
   const sourceBytes = readFileSync(sourcePath);
+  const sourceSizeOnDisk = statSync(sourcePath).size;
+  if (sourceSizeOnDisk !== sourceBytes.length) {
+    console.error(
+      `warning: stat size ${sourceSizeOnDisk} differs from bytes read ${sourceBytes.length}`,
+    );
+  }
   writeFileSync(outputPath, sourceBytes);
 
   const outputBytes = readFileSync(outputPath);
+  const outputSizeOnDisk = statSync(outputPath).size;
   const sourceHash = sha256Hex(sourceBytes);
   const outputHash = sha256Hex(outputBytes);
-  const identical = sourceHash === outputHash;
+  const sizesMatch = sourceBytes.length === outputBytes.length;
+  const identical = sourceHash === outputHash && sizesMatch;
 
-  console.log(`source: ${sourcePath}`);
-  console.log(`output: ${outputPath}`);
-  console.log(`output bytes: ${outputBytes.length}`);
+  console.log(`source: ${sourcePath} (${sourceBytes.length} bytes)`);
+  console.log(`output: ${outputPath} (${outputBytes.length} bytes)`);
+  console.log(`output size on disk: ${outputSizeOnDisk} bytes`);
   console.log(`output sha256: ${outputHash}`);
   console.log(`source sha256: ${sourceHash}`);
-  console.log(`match: ${identical ? "yes" : "no"}`);
+  console.log(`sizes match: ${sizesMatch ? "yes" : "no"}`);
+  console.log(`hash match: ${sourceHash === outputHash ? "yes" : "no"}`);
+  console.log(
+    identical
+      ? "verified: output is an exact byte-for-byte copy of entry.png"
+      : "verification FAILED: output differs from entry.png",
+  );
 
   if (!identical) {
     process.exitCode = 1;

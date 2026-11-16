@@ -6,6 +6,8 @@
 
 The rain had just stopped and the whole street was still shining when he spotted it — the biggest puddle on the block, wide and flat and asking for trouble. He did not dip a toe in or take a careful hop; he ran two steps, jumped, and came down with his whole weight in his yellow boots, right in the middle of it. The water answered instantly, bursting straight up around him in a perfect crown while his head tipped back and he laughed at the sky.
 
+Half a second earlier it was just wet pavement and a quiet street; half a second later the crown would collapse back into ripples — this frame is the single heartbeat in between where he is king of the puddle.
+
 The photo is graded gently and stored as entry.png, and main.ts copies it to the output path while recording the SHA-256 of both files deterministically so the copy can always be verified byte for byte.
 
 ## Why it excites
